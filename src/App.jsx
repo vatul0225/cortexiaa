@@ -159,8 +159,16 @@ const CortexiaWebsite = () => {
       );
   };
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isMenuOpen]);
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen overflow-x-hidden bg-white">
       <style>{`
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -178,24 +186,26 @@ const CortexiaWebsite = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          {/* Logo */}
           <div className="flex items-center gap-3">
             <img
-              className="h-10 md:h-12 w-auto"
               src="logo1.png"
               alt="Cortexia"
+              className="h-10 md:h-12 w-auto"
             />
           </div>
 
+          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             {["Home", "About", "Services", "Portfolio", "Contact"].map(
               (item) => (
                 <button
                   key={item}
-                  onClick={() => {
+                  onClick={() =>
                     document
                       .getElementById(item.toLowerCase())
-                      ?.scrollIntoView({ behavior: "smooth" });
-                  }}
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
                   className="text-sm font-semibold text-gray-700 hover:text-emerald-600 transition-colors"
                 >
                   {item}
@@ -204,6 +214,7 @@ const CortexiaWebsite = () => {
             )}
           </nav>
 
+          {/* Desktop CTA */}
           <a
             href="#contact"
             className="hidden md:block bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-2.5 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300 text-sm font-semibold"
@@ -211,9 +222,11 @@ const CortexiaWebsite = () => {
             Get Started
           </a>
 
+          {/* Mobile Toggle */}
           <button
             className="md:hidden p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? (
               <X className="w-6 h-6" />
@@ -228,11 +241,11 @@ const CortexiaWebsite = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ x: "100%" }}
+            initial={{ x: "100vw" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: "100vw" }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-white md:hidden pt-24"
+            className="fixed top-0 left-0 right-0 bottom-0 z-40 bg-white md:hidden pt-24 overflow-x-hidden"
           >
             <nav className="flex flex-col items-center gap-8 py-10">
               {["Home", "About", "Services", "Portfolio", "Contact"].map(
@@ -246,7 +259,7 @@ const CortexiaWebsite = () => {
                       document
                         .getElementById(item.toLowerCase())
                         ?.scrollIntoView({ behavior: "smooth" });
-                      setIsMenuOpen(false); // 🔥 auto close
+                      setIsMenuOpen(false);
                     }}
                     className="text-2xl font-semibold text-gray-800 hover:text-emerald-600 transition-colors"
                   >
