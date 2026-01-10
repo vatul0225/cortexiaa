@@ -39,6 +39,7 @@ const projects = [
     ],
     status: "Under Upgradation",
     image: "image1.png",
+    link: "https: //www.triunitylabs.com/"
   },
   {
     id: 2,
@@ -53,6 +54,7 @@ const projects = [
     ],
     status: "Preview Project",
     image: "image2.png",
+    link: "https://www.triunitylabs.com/"
   },
   {
     id: 3,
@@ -67,6 +69,7 @@ const projects = [
     ],
     status: "Preview Project",
     image: "image3.png",
+    link: "https://aayudentalnew-5vr8.vercel.app/"
   },
 ];
 
@@ -481,7 +484,7 @@ const CortexiaWebsite = () => {
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                     <a
-                      href="main.png"
+                      href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-white text-gray-900 px-6 py-3 rounded-full font-semibold hover:scale-105 transition-all"
