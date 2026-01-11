@@ -71,7 +71,6 @@ const ServiceCard = ({ icon: Icon, title, description, index }) => {
       {/* CTA */}
       <Link
         to="/schedule"
-        target="_blank"
         rel="noopener noreferrer"
         className="flex items-center space-x-2 text-white border border-white/30 px-6 py-3 rounded-full transition-all duration-300 hover:bg-white hover:text-[#1a3d2e] group"
       >
