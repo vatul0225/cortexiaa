@@ -4,7 +4,7 @@ const BrandBoostSection = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-   <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:-mt-20 px-8 -mt-150 md:-mt-250 mb-20">
+   <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:-mt-20 px-8 -mt-120 md:-mt-300 mb-20">
       <div
         className="relative rounded-3xl overflow-hidden shadow-2xl animate-fadeIn"
         onMouseEnter={() => setIsHovered(true)}
