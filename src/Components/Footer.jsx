@@ -53,53 +53,50 @@ const ContactSection = () => {
     }));
   };
 
-const handleSubmit = async () => {
-  if (!formData.name || !formData.email || !formData.message) {
-    alert("Please fill in all required fields (Name, Email, and Message)");
-    return;
-  }
-
-  // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(formData.email)) {
-    alert("Please enter a valid email address");
-    return;
-  }
-
-  setIsSubmitting(true);
-
-  try {
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Something went wrong");
+  const handleSubmit = async () => {
+    if (!formData.name || !formData.email || !formData.message) {
+      alert("Please fill in all required fields (Name, Email, and Message)");
+      return;
     }
 
-    setIsSubmitted(true);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      message: "",
-    });
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
 
-    // Hide success message after 3s
-    setTimeout(() => setIsSubmitted(false), 3000);
-  } catch (error) {
-    alert(error.message || "Server error");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    setIsSubmitting(true);
 
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+
+      // Hide success message after 3s
+      setTimeout(() => setIsSubmitted(false), 3000);
+    } catch (error) {
+      alert(error.message || "Server error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section
@@ -473,7 +470,7 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="pt-8 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center gap-4">
         <p className="text-gray-400 text-sm">
-          © 2024WOOKIES. All Rights Reserved.
+          © 2025CORTEXIA. All Rights Reserved.
         </p>
         <div className="flex gap-6">
           <a

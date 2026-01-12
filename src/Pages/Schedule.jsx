@@ -84,11 +84,9 @@ const ScheduleDiscussionPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/discussion", {
+      const response = await fetch("/api/discussion", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
           services: selectedServices,
