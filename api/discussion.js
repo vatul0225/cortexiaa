@@ -1,4 +1,4 @@
-import dbConnect from "./lib/db";
+import dbConnect from "../lib/db";
 import Discussion from "../Backend/models/Discussion";
 
 export default async function handler(req, res) {
