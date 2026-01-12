@@ -53,52 +53,53 @@ const ContactSection = () => {
     }));
   };
 
-  const handleSubmit = async () => {
-    if (!formData.name || !formData.email || !formData.message) {
-      alert("Please fill in all required fields (Name, Email, and Message)");
-      return;
+const handleSubmit = async () => {
+  if (!formData.name || !formData.email || !formData.message) {
+    alert("Please fill in all required fields (Name, Email, and Message)");
+    return;
+  }
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.email)) {
+    alert("Please enter a valid email address");
+    return;
+  }
+
+  setIsSubmitting(true);
+
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong");
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      alert("Please enter a valid email address");
-      return;
-    }
+    setIsSubmitted(true);
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
 
-    setIsSubmitting(true);
+    // Hide success message after 3s
+    setTimeout(() => setIsSubmitted(false), 3000);
+  } catch (error) {
+    alert(error.message || "Server error");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
-    try {
-      const response = await fetch("http://localhost:5000/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
-
-      setIsSubmitted(true);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
-
-      // Hide success message after 3s
-      setTimeout(() => setIsSubmitted(false), 3000);
-    } catch (error) {
-      alert(error.message || "Server error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <section
