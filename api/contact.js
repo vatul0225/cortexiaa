@@ -20,20 +20,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  try {
-    const { name, email, phone, message } = req.body;
+  await db.collection("contacts").add({
+    ...req.body,
+    createdAt: new Date(),
+  });
 
-    await db.collection("contacts").add({
-      name,
-      email,
-      phone,
-      message,
-      createdAt: new Date(),
-    });
-
-    return res.status(200).json({ success: true });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
-  }
+  return res.status(200).json({ success: true });
 }
