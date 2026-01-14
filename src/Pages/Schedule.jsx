@@ -93,10 +93,19 @@ const ScheduleDiscussionPage = () => {
         }),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data = {};
+
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error("Server returned invalid JSON");
+        }
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
+        throw new Error(data.message || "Something went wrong");
       }
 
       setSubmitted(true);

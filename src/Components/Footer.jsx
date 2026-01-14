@@ -75,15 +75,9 @@ const ContactSection = () => {
         body: JSON.stringify(formData),
       });
 
-      // const data = await response.json();
-<<<<<<< HEAD
-
-      // if (!response.ok) {
-      //   throw new Error(data.message || "Something went wrong");
-      // }
       const text = await response.text();
-
       let data = {};
+
       if (text) {
         try {
           data = JSON.parse(text);
@@ -95,26 +89,6 @@ const ContactSection = () => {
       if (!response.ok) {
         throw new Error(data.message || "Server error");
       }
-=======
-
-      // if (!response.ok) {
-      //   throw new Error(data.message || "Something went wrong");
-      // }
-      const text = await response.text();
-
-let data = {};
-if (text) {
-  try {
-    data = JSON.parse(text);
-  } catch {
-    throw new Error("Server returned invalid JSON");
-  }
-}
-
-if (!response.ok) {
-  throw new Error(data.message || "Server error");
-}
->>>>>>> dfa55a4ed3447ab5166f4d1568d8fbc845ac29aa
 
       setIsSubmitted(true);
       setFormData({
