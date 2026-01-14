@@ -1,25 +1,25 @@
-import express from "express";
 import { db } from "../firebase/admin.js";
 
-const router = express.Router();
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
 
-router.post("/discussion", async (req, res) => {
   try {
     const {
       fullName,
       email,
       phone,
       company,
-      projectType,
       budget,
       date,
       time,
-      message,
       services,
+      message,
     } = req.body;
 
     if (!fullName || !email || !phone || !budget || !date || !time) {
-      return res.status(400).json({ message: "Missing required fields" });
+      return res.status(400).json({ message: "Missing fields" });
     }
 
     await db.collection("discussions").add({
@@ -27,19 +27,17 @@ router.post("/discussion", async (req, res) => {
       email,
       phone,
       company,
-      projectType,
       budget,
       date,
       time,
-      message,
       services,
+      message,
       createdAt: new Date(),
     });
 
-    res.status(201).json({ success: true });
+    return res.status(200).json({ success: true });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("DISCUSSION ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
   }
-});
-
-export default router;
+}

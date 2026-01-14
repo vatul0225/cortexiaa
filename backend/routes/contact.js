@@ -1,16 +1,14 @@
-import express from "express";
 import { db } from "../firebase/admin.js";
 
-const router = express.Router();
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
 
-router.post("/contact", async (req, res) => {
   try {
-    console.log("📩 CONTACT BODY:", req.body);
-
     const { name, email, phone, message } = req.body;
 
     if (!name || !email || !message) {
-      console.log("❌ Validation failed");
       return res.status(400).json({ message: "Missing fields" });
     }
 
@@ -22,13 +20,9 @@ router.post("/contact", async (req, res) => {
       createdAt: new Date(),
     });
 
-    console.log("✅ Contact saved in Firestore");
-
-    res.status(201).json({ success: true });
+    return res.status(200).json({ success: true });
   } catch (error) {
-    console.error("🔥 CONTACT ERROR:", error);
-    res.status(500).json({ message: "Server error" });
+    console.error("CONTACT ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
   }
-});
-
-export default router;
+}
