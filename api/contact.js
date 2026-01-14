@@ -1,28 +1,31 @@
-import dbConnect from "./lib/db";
-import Contact from "../Backend/models/Contact";
+import { db } from "../firebase/firebaseAdmin.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
+    return res.status(405).json({ message: "Method not allowed" });
   }
 
   try {
-    await dbConnect();
-
     const { name, email, phone, message } = req.body;
 
     if (!name || !email || !message) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    await Contact.create({ name, email, phone, message });
+    await db.collection("contacts").add({
+      name,
+      email,
+      phone: phone || "",
+      message,
+      createdAt: new Date(),
+    });
 
-    res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: "Contact saved successfully",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server Error" });
+    return res.status(500).json({ message: "Server error" });
   }
 }

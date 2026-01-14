@@ -1,25 +1,21 @@
-import dbConnect from "./lib/db";
-import Discussion from "../Backend/models/Discussion";
+import { db } from "../firebase/firebaseAdmin.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
+    return res.status(405).json({ message: "Method not allowed" });
   }
 
   try {
-    await dbConnect();
-
     const {
       fullName,
       email,
       phone,
       company,
-      projectType,
       budget,
       date,
       time,
-      services,
       message,
+      services,
     } = req.body;
 
     if (
@@ -35,25 +31,26 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    await Discussion.create({
+    await db.collection("discussions").add({
       fullName,
       email,
       phone,
-      company,
-      projectType,
+      company: company || "",
       budget,
       date,
       time,
+      message: message || "",
       services,
-      message,
+      status: "pending",
+      createdAt: new Date(),
     });
 
-    res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: "Discussion scheduled successfully",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server Error" });
+    return res.status(500).json({ message: "Server error" });
   }
 }
